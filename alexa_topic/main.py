@@ -115,6 +115,7 @@ def get_welcome_response():
 
 
 def populate_tweet_topics(intent, session, answer):
+    #Helper method to get tweets and perform set up for LDA
     twitterText = []
 
     try: 
@@ -159,15 +160,13 @@ def populate_tweet_topics(intent, session, answer):
 
 
 def handle_answer_request(intent, session):
+    #Handles the answer and performs LDA calculation
     attributes = {}
     should_end_session = False
     answer = intent['slots'].get('Answer', {}).get('value')
     user_gave_up = intent['name']
 
     if not answer and user_gave_up == "DontKnowIntent":
-        # If the user provided answer isn't a number > 0 and < ANSWER_COUNT,
-        # return an error message to the user. Remember to guide the user
-        # into providing correct values.
         reprompt = session['attributes']['speech_output']
         reprompt_text = session['attributes']['reprompt_text']
         speech_output = "Your answer must be a known sustainability subject. " + reprompt
